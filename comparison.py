@@ -90,8 +90,6 @@ def Comparison(org_img, com_img):
 if __name__ == "__main__":
     org_img, com_img = Read_img()
 
-    print('unko')
-
     org_show_img = cv2.imread('img/test3.png')
     org_show_img= cv2.cvtColor(org_show_img, cv2.COLOR_RGB2BGR)
 

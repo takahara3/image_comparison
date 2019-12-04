@@ -7,6 +7,9 @@ from comparison import Read_img
 if __name__ == "__main__":
     org_img, com_img = Read_img()
 
+    print(type(org_img))
+    print(type(com_img))
+
     fig = plt.figure(figsize = (16,9))
 
     plt.subplot(221)
@@ -30,7 +33,7 @@ if __name__ == "__main__":
     x = 0
     #画像をn×nに分割
     #今回は n = 4
-    slice_num = 4
+    slice_num = 5
     dh = org_height // slice_num
     dw = org_width // slice_num
     start_h, start_w = 0,0
@@ -47,7 +50,6 @@ if __name__ == "__main__":
     n = 1
 
     for i in range(slice_num):
-        #print('unko')
         for j in range(slice_num):
             cutted_org_img = org_edge_img[start_h:start_h + dh, start_w:start_w + dw]
             cutted_com_img = com_edge_img[start_h:start_h + dh, start_w:start_w + dw]
@@ -88,6 +90,9 @@ if __name__ == "__main__":
     plt.imshow(org_edge_img, cmap="gray")
     plt.subplot(224)
     plt.imshow(com_edge_img, cmap="gray")
+
+    print(shape)
+    print(after_img)
 
     plt.figure(figsize = (8,4))
     plt.imshow(after_img)
