@@ -33,7 +33,7 @@ if __name__ == "__main__":
     x = 0
     #画像をn×nに分割
     #今回は n = 4
-    slice_num = 5
+    slice_num = 4
     dh = org_height // slice_num
     dw = org_width // slice_num
     start_h, start_w = 0,0
@@ -68,6 +68,7 @@ if __name__ == "__main__":
             org_point_num.append(org_point)
             com_point_num.append(com_point)
             if abs(org_point - com_point) > 300:
+                print('unko')
                 shape.append([start_h, start_w, start_h + dh, start_w + dw])
                 #print('i = {0}, j = {1}'.format(i,j))
             org_point, com_point = 0,0
@@ -76,13 +77,13 @@ if __name__ == "__main__":
         start_h += dh
         start_w = 0
 
-    #print(org_point_num)
-    #print(com_point_num)
-    '''
+    print(org_point_num)
+    print(com_point_num)
+
     for i in range(len(org_point_num)):
         print('{}, diff = '.format(i + 1), end = " ")
         print(abs(org_point_num[i] - com_point_num[i]))
-        '''
+
     for i in range(len(shape)):
         after_img = cv2.rectangle(com_img, (shape[i][1], shape[i][0]), (shape[i][3], shape[i][2]), (255,0,0))
 
