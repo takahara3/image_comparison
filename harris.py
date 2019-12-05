@@ -35,10 +35,9 @@ def Comparison(org_img, com_img):
     com_height, com_width, chaneels = com_img.shape
     coordinate = []
     x = 0
-    #画像をn×nに分割
-    #今回は n = 4
-    slice_num = 4
-    c_h,c_w = org_height // slice_num, org_width // slice_num
+    sep_num = 4
+    slice_num = 10
+    c_h,c_w = org_height // sep_num, org_width // sep_num
     dh,dw = c_h // slice_num, c_w // slice_num
     start_h, start_w = 0,0
 
@@ -53,9 +52,8 @@ def Comparison(org_img, com_img):
     shape = []
     n = 1
 
-    for i in range(slice_num**2):
-        #print('unko')
-        for j in range(slice_num**2):
+    for i in range(sep_num * slice_num):
+        for j in range(sep_num * slice_num):
             cutted_org_img = org_img[start_h:start_h + c_h, start_w:start_w + c_w]
             cutted_com_img = com_img[start_h:start_h + c_h, start_w:start_w + c_w]
             new_org_img.append(cutted_org_img)
@@ -112,7 +110,8 @@ if __name__ == "__main__":
     point_org_img, point_com_img = FeaturePointdetection(org_img, com_img)
 
     after_img = Comparison(point_org_img, point_com_img)
-    plt.figure(figsize = (8,6))
+    plt.figure(figsize = (8,4))
+    plt.title('Comparison result (harris)')
     plt.imshow(after_img)
 
     plt.show()

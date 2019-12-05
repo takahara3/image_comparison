@@ -110,7 +110,7 @@ if __name__ == "__main__":
             after_img = cv2.rectangle(com_img, (shape[i][1], shape[i][0]), (shape[i][3], shape[i][2]), (255,0,0))
 
         plt.figure(figsize = (8,4))
-        plt.title('Comparison Result')
+        plt.title('Comparison result (canny)')
         plt.imshow(after_img)
 
 
