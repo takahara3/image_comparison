@@ -7,9 +7,6 @@ from comparison import Read_img
 if __name__ == "__main__":
     org_img, com_img = Read_img()
 
-    print(type(org_img))
-    print(type(com_img))
-
     fig = plt.figure(figsize = (16,9))
 
     plt.subplot(221)
@@ -68,7 +65,7 @@ if __name__ == "__main__":
             org_point_num.append(org_point)
             com_point_num.append(com_point)
             if abs(org_point - com_point) > 300:
-                print('unko')
+                #print('unko')
                 shape.append([start_h, start_w, start_h + dh, start_w + dw])
                 #print('i = {0}, j = {1}'.format(i,j))
             org_point, com_point = 0,0
@@ -84,19 +81,20 @@ if __name__ == "__main__":
         print('{}, diff = '.format(i + 1), end = " ")
         print(abs(org_point_num[i] - com_point_num[i]))
 
-    for i in range(len(shape)):
-        after_img = cv2.rectangle(com_img, (shape[i][1], shape[i][0]), (shape[i][3], shape[i][2]), (255,0,0))
 
     plt.subplot(223)
     plt.imshow(org_edge_img, cmap="gray")
     plt.subplot(224)
     plt.imshow(com_edge_img, cmap="gray")
 
-    print(shape)
-    print(after_img)
+    if not shape:
+        pass
+    else:
+        for i in range(len(shape)):
+            after_img = cv2.rectangle(com_img, (shape[i][1], shape[i][0]), (shape[i][3], shape[i][2]), (255,0,0))
 
-    plt.figure(figsize = (8,4))
-    plt.imshow(after_img)
+        plt.figure(figsize = (8,4))
+        plt.imshow(after_img)
 
 
 
