@@ -6,6 +6,7 @@ from comparison import Read_img
 
 if __name__ == "__main__":
     org_img, com_img = Read_img()
+    print('image shape = {}'.format(org_img.shape))
 
     fig = plt.figure(figsize = (16,9))
 
@@ -26,14 +27,13 @@ if __name__ == "__main__":
     org_height, org_width, channels = org_img.shape
     com_height, com_width, chaneels = com_img.shape
 
-    coordinate = []
-    x = 0
-    #画像をn×nに分割
-    #今回は n = 4
     slice_num = 4
-    dh = org_height // slice_num
-    dw = org_width // slice_num
+    c_h,c_w = org_height // slice_num, org_width // slice_num
+    dh,dw = c_h // slice_num, c_w // slice_num
     start_h, start_w = 0,0
+
+    print(c_h,c_w)
+    print(dh,dw)
 
     new_org_img = []
     new_com_img = []
@@ -46,17 +46,18 @@ if __name__ == "__main__":
     shape = []
     n = 1
 
-    for i in range(slice_num):
-        for j in range(slice_num):
-            cutted_org_img = org_edge_img[start_h:start_h + dh, start_w:start_w + dw]
-            cutted_com_img = com_edge_img[start_h:start_h + dh, start_w:start_w + dw]
+    for i in range(slice_num**2):
+        #print('i = {}'.format(i))
+        for j in range(slice_num**2):
+            cutted_org_img = org_edge_img[start_h:start_h + c_h, start_w:start_w + c_w]
+            cutted_com_img = com_edge_img[start_h:start_h + c_h, start_w:start_w + c_w]
             new_org_img.append(cutted_org_img)
             new_com_img.append(cutted_com_img)
-            #print(dh,dw)
+            #print('cutted_img shape = {}'.format(cutted_org_img.shape[0]))
             #print('j = {}'.format(j))
-            for p in range(dh):
+            for p in range(cutted_org_img.shape[0]):
                 #print('p = {}'.format(p))
-                for q in range(dw):
+                for q in range(cutted_org_img.shape[1]):
                     #print('q = {}'.format(q))
                     if np.all(cutted_org_img[p][q] == [255,255,255]):
                         org_point += 1
@@ -65,8 +66,7 @@ if __name__ == "__main__":
             org_point_num.append(org_point)
             com_point_num.append(com_point)
             if abs(org_point - com_point) > 300:
-                #print('unko')
-                shape.append([start_h, start_w, start_h + dh, start_w + dw])
+                shape.append([start_h, start_w, start_h + c_h, start_w + c_w])
                 #print('i = {0}, j = {1}'.format(i,j))
             org_point, com_point = 0,0
             start_w += dw
@@ -77,15 +77,25 @@ if __name__ == "__main__":
     print(org_point_num)
     print(com_point_num)
 
+    diff = []
+
     for i in range(len(org_point_num)):
-        print('{}, diff = '.format(i + 1), end = " ")
-        print(abs(org_point_num[i] - com_point_num[i]))
+        #print('{}, diff = '.format(i + 1), end = " ")
+        #print(abs(org_point_num[i] - com_point_num[i]))
+        diff.append(org_point_num[i] - com_point_num[i])
 
 
     plt.subplot(223)
     plt.imshow(org_edge_img, cmap="gray")
     plt.subplot(224)
     plt.imshow(com_edge_img, cmap="gray")
+
+    plt.figure(figsize = (8,6))
+    plt.title('Diff')
+    x = [i for i in range(len(diff))]
+    plt.bar(x,diff)
+
+
 
     if not shape:
         pass
