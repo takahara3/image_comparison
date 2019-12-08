@@ -2,11 +2,10 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-from comparison import Read_img
+from function import Read_img
 
 if __name__ == "__main__":
     org_img, com_img = Read_img()
-    #print('image shape = {}'.format(org_img.shape))
     plt.figure(figsize = (16,8.5))
 
     plt.subplot(221)

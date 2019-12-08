@@ -2,14 +2,7 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-#比較画像の読み込み
-def Read_img():
-    org_img = cv2.imread('img/warped_img.png')
-    com_img = cv2.imread('img/test5.png')
-    #色変換
-    org_img= cv2.cvtColor(org_img, cv2.COLOR_RGB2BGR)
-    com_img= cv2.cvtColor(com_img, cv2.COLOR_RGB2BGR)
-    return org_img, com_img
+from function import *
 
 def FeaturePointdetection(org_img, com_img):
     block_size = 2
@@ -36,7 +29,7 @@ def Comparison(org_img, com_img):
     coordinate = []
     x = 0
     sep_num = 4
-    slice_num = 10
+    slice_num = 4
     c_h,c_w = org_height // sep_num, org_width // sep_num
     dh,dw = c_h // slice_num, c_w // slice_num
     start_h, start_w = 0,0
