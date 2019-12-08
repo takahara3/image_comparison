@@ -2,18 +2,19 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-from comparison import Read_img
+from harris import Read_img
 
 if __name__ == "__main__":
     org_img, com_img = Read_img()
     #print('image shape = {}'.format(org_img.shape))
     plt.figure(figsize = (16,8.5))
-
+    '''
     plt.subplot(221)
     plt.imshow(org_img)
 
     plt.subplot(223)
     plt.imshow(com_img)
+    '''
 
     gray_org_img = cv2.cvtColor(org_img, cv2.COLOR_BGR2GRAY)
     gray_com_img = cv2.cvtColor(com_img, cv2.COLOR_BGR2GRAY)
@@ -73,12 +74,15 @@ if __name__ == "__main__":
 
     diff = []
 
+    plt.subplot(221)
+    plt.imshow(org_edge_img, cmap="gray")
+    plt.subplot(223)
+    plt.imshow(com_edge_img, cmap="gray")
 
     plt.subplot(222)
     plt.title('Original image')
     x = [i for i in range(len(org_point_num))]
     plt.bar(x, org_point_num)
-
 
     plt.subplot(224)
     plt.title('Comparison image')
@@ -90,29 +94,24 @@ if __name__ == "__main__":
         #print(abs(org_point_num[i] - com_point_num[i]))
         diff.append(abs(org_point_num[i] - com_point_num[i]))
 
-    '''
-    plt.subplot(223)
-    plt.imshow(org_edge_img, cmap="gray")
-    plt.subplot(224)
-    plt.imshow(com_edge_img, cmap="gray")
-    '''
     plt.figure(figsize = (8,4))
     plt.title('diff')
     x = [i for i in range(len(diff))]
     plt.bar(x,diff)
-
-
-
+    
+    box_color = 255
     if not shape:
         pass
     else:
+        print(len(shape))
+        print(shape)
         for i in range(len(shape)):
-            after_img = cv2.rectangle(com_img, (shape[i][1], shape[i][0]), (shape[i][3], shape[i][2]), (255,0,0))
+            com_img = cv2.rectangle(com_img, (shape[i][1], shape[i][0]), (shape[i][3], shape[i][2]), (box_color,0,0))
+            #box_color -= 10
 
         plt.figure(figsize = (8,4))
         plt.title('Comparison Result')
-        plt.imshow(after_img)
-
+        plt.imshow(com_img)
 
 
     plt.show()
