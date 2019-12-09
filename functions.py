@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-from class import *
+from classes import *
 
 #比較画像の読み込み
 def Read_img(org_img_path, com_img_path):
@@ -12,17 +12,24 @@ def Read_img(org_img_path, com_img_path):
     org_img= cv2.cvtColor(org_img, cv2.COLOR_RGB2BGR)
     com_img= cv2.cvtColor(com_img, cv2.COLOR_RGB2BGR)
     return org_img, com_img
+#画像を単体表示
+def image_show(img):
+    plt.figure(figsize = (8,4))
+    plt.imshow(img)
+    plt.show()
 
-#画像表示
-def image_show(org_img, com_img):
-    plt.figure(figsize = (10,8))
+#画像を比較表示
+def some_images_show(img_1, img_2, img_1_name = False, img_2_name = False):
+    plt.figure(figsize = (8,4))
     plt.subplot(121)
-    plt.title('Original_image')
-    plt.imshow(org_img)
+    if img_1_name == True:plt.title(img_1_name)
+    plt.imshow(img_1)
 
     plt.subplot(122)
-    plt.title('Comparison_image')
-    plt.imshow(com_img)
+    if img_2_name == True:plt.title(img_2_name)
+    plt.imshow(img_2)
+
+    plt.show()
 
 #矩形描画
 def draw_rect(img,shape):
@@ -67,9 +74,23 @@ def draw_graph(org_point_num, com_point_num):
 
     plt.show()
 
+
+
+#特徴点の個数カウント
+def point_count(org_img, com_img, color):
+    org_point, com_point = 0,0
+    for i in range(org_img.shape[0]):
+        for j in range(org_img.shape[1]):
+            if np.all(org_img[i][j] == color):
+                org_point += 1
+            if np.all(com_img[i][j] == color):
+                com_point += 1
+
+    return org_point, com_point
+
 #画像中の特徴点比較
 def Comparison(org_img, com_img, color, diff, point=False):
-    param = Param(org_img, com_img)
+    param = Rect(org_img, com_img)
 
     new_org_img = []
     new_com_img = []
@@ -88,12 +109,7 @@ def Comparison(org_img, com_img, color, diff, point=False):
             cutted_com_img = com_img[param.start_h:param.start_h + param.c_h, param.start_w:param.start_w + param.c_w]
             new_org_img.append(cutted_org_img)
             new_com_img.append(cutted_com_img)
-            for p in range(cutted_org_img.shape[0]):
-                for q in range(cutted_org_img.shape[1]):
-                    if np.all(cutted_org_img[p][q] == color):
-                        org_point += 1
-                    if np.all(cutted_com_img[p][q] == color):
-                        com_point += 1
+            org_point, com_point = point_count(cutted_org_img, cutted_com_img, color)
             org_point_num.append(org_point)
             com_point_num.append(com_point)
             if abs(org_point - com_point) > diff:
@@ -109,6 +125,7 @@ def Comparison(org_img, com_img, color, diff, point=False):
     else:
         return shape
 
+#harris法によるエッジ点検出
 def HarrisFeaturePointdetection(org_img, com_img):
     block_size = 2
     kernel_size = 5
