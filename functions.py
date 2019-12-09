@@ -2,6 +2,8 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
+from class import *
+
 #比較画像の読み込み
 def Read_img(org_img_path, com_img_path):
     org_img = cv2.imread(org_img_path)
@@ -67,6 +69,7 @@ def draw_graph(org_point_num, com_point_num):
 
 #画像中の特徴点比較
 def Comparison(org_img, com_img, color, diff, point=False):
+    '''
     org_height, org_width = org_img.shape[0], org_img.shape[1]
     com_height, com_width = com_img.shape[0], com_img.shape[1]
     x = 0
@@ -75,6 +78,9 @@ def Comparison(org_img, com_img, color, diff, point=False):
     c_h,c_w = org_height // sep_num, org_width // sep_num
     dh,dw = c_h // slice_num, c_w // slice_num
     start_h, start_w = 0,0
+    '''
+
+    param = Param()
 
     new_org_img = []
     new_com_img = []
@@ -87,10 +93,10 @@ def Comparison(org_img, com_img, color, diff, point=False):
     shape = []
     n = 1
 
-    for i in range(sep_num * slice_num):
-        for j in range(sep_num * slice_num):
-            cutted_org_img = org_img[start_h:start_h + c_h, start_w:start_w + c_w]
-            cutted_com_img = com_img[start_h:start_h + c_h, start_w:start_w + c_w]
+    for i in range(param.sep_num * param.slice_num):
+        for j in range(param.sep_num * param.slice_num):
+            cutted_org_img = org_img[param.start_h:param.start_h + param.c_h, param.start_w:param.start_w + param.c_w]
+            cutted_com_img = com_img[param.start_h:param.start_h + param.c_h, param.start_w:param.start_w + param.c_w]
             new_org_img.append(cutted_org_img)
             new_com_img.append(cutted_com_img)
             for p in range(cutted_org_img.shape[0]):
@@ -102,12 +108,12 @@ def Comparison(org_img, com_img, color, diff, point=False):
             org_point_num.append(org_point)
             com_point_num.append(com_point)
             if abs(org_point - com_point) > diff:
-                shape.append([start_h, start_w, start_h + c_h, start_w + c_w])
+                shape.append([param.start_h, param.start_w, param.start_h + param.c_h, param.start_w + param.c_w])
             org_point, com_point = 0,0
-            start_w += dw
+            param.start_w += param.dw
 
-        start_h += dh
-        start_w = 0
+        param.start_h += param.dh
+        param.start_w = 0
 
     if point == True:
         return shape, org_point_num, com_point_num
