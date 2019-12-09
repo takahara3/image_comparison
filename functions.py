@@ -69,18 +69,7 @@ def draw_graph(org_point_num, com_point_num):
 
 #画像中の特徴点比較
 def Comparison(org_img, com_img, color, diff, point=False):
-    '''
-    org_height, org_width = org_img.shape[0], org_img.shape[1]
-    com_height, com_width = com_img.shape[0], com_img.shape[1]
-    x = 0
-    sep_num = 3
-    slice_num = 3
-    c_h,c_w = org_height // sep_num, org_width // sep_num
-    dh,dw = c_h // slice_num, c_w // slice_num
-    start_h, start_w = 0,0
-    '''
-
-    param = Param()
+    param = Param(org_img, com_img)
 
     new_org_img = []
     new_com_img = []

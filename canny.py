@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-from function import *
+from functions import *
 
 if __name__ == "__main__":
     org_img_path = 'img/warped_img.png'
