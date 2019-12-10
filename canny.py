@@ -67,6 +67,7 @@ if __name__ == "__main__":
 
     img_1 = com_img.copy()
     img_2 = com_img.copy()
+    print(type(img_1))
 
     #矩形を描画
     cover_img = drawrect(img_1, x)
@@ -80,7 +81,7 @@ if __name__ == "__main__":
         cv2.imwrite('./result/result_{}.png'.format(i), img)
     '''
 
-    some_images_show(after_img, cover_img)
+    two_images_show(after_img, cover_img, save = True)
 
     #グラフの作成
     #draw_graph(org_point_num, com_point_num)
