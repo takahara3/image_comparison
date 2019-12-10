@@ -12,6 +12,7 @@ def Read_img(org_img_path, com_img_path):
     org_img= cv2.cvtColor(org_img, cv2.COLOR_RGB2BGR)
     com_img= cv2.cvtColor(com_img, cv2.COLOR_RGB2BGR)
     return org_img, com_img
+
 #画像を単体表示
 def image_show(img):
     plt.figure(figsize = (8,4))
@@ -19,8 +20,8 @@ def image_show(img):
     plt.show()
 
 #画像を比較表示
-def some_images_show(img_1, img_2, img_1_name = False, img_2_name = False):
-    plt.figure(figsize = (8,4))
+def two_images_show(img_1, img_2, img_1_name = False, img_2_name = False, save = False):
+    fig = plt.figure(figsize = (8,4))
     plt.subplot(121)
     if img_1_name == True:plt.title(img_1_name)
     plt.imshow(img_1)
@@ -28,6 +29,9 @@ def some_images_show(img_1, img_2, img_1_name = False, img_2_name = False):
     plt.subplot(122)
     if img_2_name == True:plt.title(img_2_name)
     plt.imshow(img_2)
+
+    if save == True:
+        plt.savefig('./out/result.png')
 
     plt.show()
 
