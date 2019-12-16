@@ -19,4 +19,3 @@ python3と依存パッケージのインストールについては省略しま�
 ```
 git clone https://github.com/takahara3/image_comparison.git
 ```
-##
