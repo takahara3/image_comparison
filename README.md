@@ -11,3 +11,9 @@
   - NumPy
   - OpenCV
   - Matplotlib
+* インストール
+以下のコマンドを作業ディレクトリ内で実行してください．
+python3と依存パッケージのインストールについては省略します．
+```
+git clone https://github.com/takahara3/image_comparison.git
+```
