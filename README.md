@@ -1,2 +1,2 @@
-# ImageComparison
+## ImageComparison
 Image comparison experiment
