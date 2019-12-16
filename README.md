@@ -4,4 +4,4 @@
 # 開発環境
 以下の環境で開発，動作確認を行なっています．
 * OS
-- macOS Catalina 10.15.2
+  _ macOS Catalina 10.15.2
