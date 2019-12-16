@@ -7,3 +7,7 @@
   - macOS Catalina 10.15.2
 * 使用言語
   - python3
+* 依存パッケージ
+  - NumPy
+  - OpenCV
+  - Matplotlib
