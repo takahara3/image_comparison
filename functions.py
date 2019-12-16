@@ -42,6 +42,11 @@ def draw_rect(img,shape):
 
     return draw_img
 
+#矩形の共通部分描画
+def draw_common_rect(img,shape):
+    draw_img = cv2.rectangle(img,(shape[1], shape[0]), (shape[3], shape[2]), (255,0,0))
+    return draw_img
+
 #矩形を描画した画像の生成
 def img_conversion(img,shape):
     if not shape:
@@ -78,6 +83,29 @@ def draw_graph(org_point_num, com_point_num):
 
     plt.show()
 
+#矩形の共通判定
+def has_intersect(rect1,rect2):
+
+    return max(rect1[1], rect2[1]) <= min(rect1[3], rect2[3])\
+            and max(rect1[0], rect2[0]) <= min(rect1[2], rect2[2])
+
+#矩形の共通部分を求める
+def seek_intersect(shape):
+    rect1, rect2 = shape[0],shape[1]
+    for i in range(len(shape)-2):
+        if has_intersect(rect1,rect2) == True:
+            x1 = max(rect1[1], rect2[1])
+            y1 = max(rect1[0], rect2[0])
+            x2 = min(rect1[3], rect2[3])
+            y2 = min(rect1[2], rect2[2])
+
+            rect1 = [y1,x1,y2,x2]
+            rect2 = shape[i+2]
+
+        else:
+            return rect1
+
+    return rect1
 
 
 #特徴点の個数カウント

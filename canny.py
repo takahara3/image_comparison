@@ -4,43 +4,8 @@ from matplotlib import pyplot as plt
 
 from functions import *
 
-def has_intersect(rect1,rect2):
-
-    return max(rect1[1], rect2[1]) <= min(rect1[3], rect2[3])\
-            and max(rect1[0], rect2[0]) <= min(rect1[2], rect2[2])
-
-def seek_intersect(shape):
-    '''
-    if has_intersect(rect1, rect2) == True:
-        print('rect1 = {}'.format(rect1))
-        print('rect2 = {}'.format(rect2))
-        x1 = max(rect1[1], rect2[1])
-        y1 = max(rect1[0], rect2[0])
-        x2 = min(rect1[3], rect2[3])
-        y2 = min(rect1[2], rect2[2])
-    '''
-    rect1, rect2 = shape[0],shape[1]
-    for i in range(len(shape)-2):
-        if has_intersect(rect1,rect2) == True:
-            x1 = max(rect1[1], rect2[1])
-            y1 = max(rect1[0], rect2[0])
-            x2 = min(rect1[3], rect2[3])
-            y2 = min(rect1[2], rect2[2])
-
-            rect1 = [y1,x1,y2,x2]
-            rect2 = shape[i+2]
-
-        else:
-            return rect1
-
-    return rect1
-
-def drawrect(img,shape):
-    draw_img = cv2.rectangle(img,(shape[1], shape[0]), (shape[3], shape[2]), (255,0,0))
-    return draw_img
-
 if __name__ == "__main__":
-    org_img_path = 'img/warped_img.png'
+    org_img_path = 'img/test3.png'
     com_img_path = 'img/test5.png'
     org_img, com_img = Read_img(org_img_path, com_img_path)
 
@@ -70,18 +35,10 @@ if __name__ == "__main__":
     print(type(img_1))
 
     #矩形を描画
-    cover_img = drawrect(img_1, x)
+    cover_img = draw_common_rect(img_1, x)
     after_img = draw_rect(img_2, shape)
 
-    '''
-    for i,rect in enumerate(shape):
-        img = drawrect(com_img,rect)
-        image_show(img)
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        cv2.imwrite('./result/result_{}.png'.format(i), img)
-    '''
-
-    two_images_show(after_img, cover_img, save = True)
+    two_images_show(after_img, cover_img)
 
     #グラフの作成
     #draw_graph(org_point_num, com_point_num)
