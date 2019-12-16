@@ -1,2 +1,2 @@
 # Image_Comparison
-Image comparison experiment
+2枚の画像の差分検出パッケージ（開発途中）
