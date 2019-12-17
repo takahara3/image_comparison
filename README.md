@@ -27,7 +27,6 @@ git clone https://github.com/takahara3/image_comparison.git
 1. imgディレクトリ内に差分検出を行いたい2つの画像を入れます．．
     - 比較元の画像名：```origin_image.png```
     - 比較対象の画像名：```comparison_image.png```
-2. 以下のコマンドを実行します　　  
-```python3 canny.py```   
-    - オプション
-    -
+2. 以下のコマンドを実行します　　
+    - 検出結果を表示：```python3 canny.py```
+    - 検出結果を表示，保存：```python3 canny.py -s True```
