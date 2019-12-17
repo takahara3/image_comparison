@@ -22,7 +22,7 @@ python3と使用パッケージのインストールについては省略しま�
 `$ git clone https://github.com/takahara3/image_comparison.git`
 
 ## 実行方法(canny.pyの場合)
-1. imgディレクトリ内に差分検出を行いたい2つの画像を入れます．．
+1. imgディレクトリ内に差分検出を行いたい2つの画像を入れます．
     - 比較元の画像名:  
     `origin_image.png`
     - 比較対象の画像名:  
@@ -31,4 +31,6 @@ python3と使用パッケージのインストールについては省略しま�
     - 検出結果を表示：  
     `$ python3 canny.py`
     - 検出結果を表示，保存：  
-    `$ python3 canny.py -s True`
+    `$ python3 canny.py -s True`　　
+
+img内にサンプル画像が入っているので，サンプルでの実行結果を以下に示します．
