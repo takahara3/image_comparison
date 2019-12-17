@@ -1,11 +1,22 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
+from argparse import ArgumentParser
 
 from classes import *
 
+#コマンドライン引数
+def get_option():
+    argparser = ArgumentParser()
+    argparser.add_argument('-s', '--save', type = bool, default = False,
+                            help = 'save result image')
+    argparser.add_argument('-fig', '--figure', type = bool, default = False,
+                            help = 'show figure')
+
+    return argparser.parse_args()
+
 #比較画像の読み込み
-def Read_img(org_img_path, com_img_path):
+def read_img(org_img_path, com_img_path):
     org_img = cv2.imread(org_img_path)
     com_img = cv2.imread(com_img_path)
     #色変換
@@ -13,9 +24,18 @@ def Read_img(org_img_path, com_img_path):
     com_img= cv2.cvtColor(com_img, cv2.COLOR_RGB2BGR)
     return org_img, com_img
 
+def write_img(img, img_name=None):
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    if img_name != None:
+        cv2.imwrite('out/{}.png'.format(img_name), img)
+    else:
+        cv2.imwrite('out/result.png',img)
+
+
 #画像を単体表示
-def image_show(img):
+def image_show(img, img_name = False):
     plt.figure(figsize = (8,4))
+    if img_name != False:plt.title(img_name)
     plt.imshow(img)
     plt.show()
 
@@ -23,11 +43,11 @@ def image_show(img):
 def two_images_show(img_1, img_2, img_1_name = False, img_2_name = False, save = False):
     fig = plt.figure(figsize = (8,4))
     plt.subplot(121)
-    if img_1_name == True:plt.title(img_1_name)
+    if img_1_name != False:plt.title(img_1_name)
     plt.imshow(img_1)
 
     plt.subplot(122)
-    if img_2_name == True:plt.title(img_2_name)
+    if img_2_name != False:plt.title(img_2_name)
     plt.imshow(img_2)
 
     if save == True:
@@ -107,7 +127,6 @@ def seek_intersect(shape):
 
     return rect1
 
-
 #特徴点の個数カウント
 def point_count(org_img, com_img, color):
     org_point, com_point = 0,0
@@ -121,7 +140,7 @@ def point_count(org_img, com_img, color):
     return org_point, com_point
 
 #画像中の特徴点比較
-def Comparison(org_img, com_img, color, diff, point=False):
+def Comparison(org_img, com_img, color, diff):
     param = Rect(org_img, com_img)
 
     new_org_img = []
@@ -151,11 +170,7 @@ def Comparison(org_img, com_img, color, diff, point=False):
 
         param.start_h += param.dh
         param.start_w = 0
-
-    if point == True:
-        return shape, org_point_num, com_point_num
-    else:
-        return shape
+    return shape, org_point_num, com_point_num
 
 #harris法によるエッジ点検出
 def HarrisFeaturePointdetection(org_img, com_img):
@@ -176,3 +191,53 @@ def HarrisFeaturePointdetection(org_img, com_img):
     com_img[com_res>0.01*com_res.max()] = (255, 0, 0)
 
     return org_img, com_img
+
+#特徴点の座標確認
+def keypoint_coords(kp, top, left, bottom, right, margin=0):
+    u = kp.pt[0]
+    v = kp.pt[1]
+    return (top + margin < v) and (left + margin < u) and (v < bottom - margin) and (u < right - margin)
+
+#比較元画像の射影変換処理
+def image_conversion(org_img,com_img):
+    org_h, org_w, org_ch = org_img.shape
+    com_h, com_w, com_ch = com_img.shape
+
+    if org_h!=com_h or org_w!=com_w or org_ch!=com_ch:
+        print("Not equal size")
+    else:
+        gray_org_img = cv2.cvtColor(org_img, cv2.COLOR_RGB2GRAY)
+        gray_com_img = cv2.cvtColor(com_img, cv2.COLOR_RGB2GRAY)
+
+        detector = cv2.AKAZE_create()
+        org_kp, org_des = detector.detectAndCompute(gray_org_img, None)
+        com_kp, com_des = detector.detectAndCompute(gray_com_img, None)
+
+        bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+
+        matches = bf.match(org_des, com_des)
+        matches = sorted(matches, key = lambda x:x.distance)
+
+        margin = 50
+        matches = [match for match in matches \
+                   if keypoint_coords(org_kp[match.queryIdx], 0, 0, org_h, org_w, margin) \
+                   and keypoint_coords(com_kp[match.trainIdx], 0, 0, org_h, org_w, margin)]
+        num_correpondences = len(matches)
+        #print("Num of correspondences (filtered by image coordinates): {}".format(num_correpondences))
+
+        filtered_matches = matches[:100]
+
+        out = np.zeros((org_h, org_w*2, org_ch), np.uint8)
+        cv2.drawMatches(gray_org_img, org_kp, gray_com_img, com_kp, filtered_matches, out, flags=0)
+        out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
+
+        good_match_rate = 0.7
+        good = matches[:int(len(matches) * good_match_rate)]
+        src_org_pts = np.float32([ org_kp[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
+        dst_com_pts = np.float32([ com_kp[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
+
+        H, mask = cv2.findHomography(src_org_pts, dst_com_pts, cv2.RANSAC, 5.0)
+
+        warped_org_img = cv2.warpPerspective(org_img, H, (org_w, org_h))
+
+        return warped_org_img
