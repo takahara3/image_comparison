@@ -9,7 +9,7 @@ Harris法[Harris 1988]と，Canny法[Canny 1986]のそれぞれの特徴点検�
   - macOS Catalina 10.15.2
 * 使用言語
   - python3
-* 依存パッケージ
+* 使用パッケージ
   - NumPy
   - OpenCV
   - Matplotlib
