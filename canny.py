@@ -5,12 +5,13 @@ from matplotlib import pyplot as plt
 from functions import *
 
 if __name__ == "__main__":
-    org_img_path = 'img/test3.png'
-    com_img_path = 'img/test5.png'
+    org_img_path = "img/origin_image.png"
+    com_img_path = "img/comparison_image.png"
     org_img, com_img = Read_img(org_img_path, com_img_path)
 
     gray_org_img = cv2.cvtColor(org_img, cv2.COLOR_BGR2GRAY)
     gray_com_img = cv2.cvtColor(com_img, cv2.COLOR_BGR2GRAY)
+    two_images_show(gray_org_img, gray_com_img)
 
     min_val = 100
     max_val = 200

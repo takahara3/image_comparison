@@ -2,6 +2,10 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
+class Shape:
+    def __init__(self, image):
+        self.h, self.w, self.ch = image.shape
+
 
 class Rect:
     def __init__(self, org_img, com_img):

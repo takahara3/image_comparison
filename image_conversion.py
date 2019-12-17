@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from functions import *
 from classes import *
 
-def checkKeypointCoords(kp, top, left, bottom, right, margin=0):
+def keypoint_coords(kp, top, left, bottom, right, margin=0):
     u = kp.pt[0]
     v = kp.pt[1]
     return (top + margin < v) and (left + margin < u) and (v < bottom - margin) and (u < right - margin)
@@ -17,15 +17,6 @@ def image_conversion(org_img,com_img):
     if org_h!=com_h or org_w!=com_w or org_ch!=com_ch:
         print("Not equal size")
     else:
-        h = org_h
-        w = org_w
-        ch = org_ch
-        multiple = 1.0
-        left   = 0
-        right  = w
-        top    = 0
-        bottom = h
-
         gray_org_img = cv2.cvtColor(org_img, cv2.COLOR_RGB2GRAY)
         gray_com_img = cv2.cvtColor(com_img, cv2.COLOR_RGB2GRAY)
 
@@ -40,17 +31,14 @@ def image_conversion(org_img,com_img):
 
         margin = 50
         matches = [match for match in matches \
-                   if checkKeypointCoords(org_kp[match.queryIdx], top, left, bottom, right, margin) \
-                   and checkKeypointCoords(com_kp[match.trainIdx], top, left, bottom, right, margin)]
+                   if keypoint_coords(org_kp[match.queryIdx], 0, 0, org_h, org_w, margin) \
+                   and keypoint_coords(com_kp[match.trainIdx], 0, 0, org_h, org_w, margin)]
         num_correpondences = len(matches)
         #print("Num of correspondences (filtered by image coordinates): {}".format(num_correpondences))
 
         filtered_matches = matches[:100]
 
-        height = h
-        width  = w* 2
-
-        out = np.zeros((height, width, ch), np.uint8)
+        out = np.zeros((org_h, org_w*2, org_ch), np.uint8)
         cv2.drawMatches(gray_org_img, org_kp, gray_com_img, com_kp, filtered_matches, out, flags=0)
         out = cv2.cvtColor(out, cv2.COLOR_BGR2RGB)
 
@@ -61,7 +49,7 @@ def image_conversion(org_img,com_img):
 
         H, mask = cv2.findHomography(src_org_pts, dst_com_pts, cv2.RANSAC, 5.0)
 
-        warped_org_img = cv2.warpPerspective(org_img, H, (w, h))
+        warped_org_img = cv2.warpPerspective(org_img, H, (org_w, org_h))
 
         return warped_org_img
 

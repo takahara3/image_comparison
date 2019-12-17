@@ -5,8 +5,8 @@ from matplotlib import pyplot as plt
 from functions import *
 
 if __name__ == "__main__":
-    org_img_path = 'img/warped_img.png'
-    com_img_path = 'img/test5.png'
+    org_img_path = "img/origin_image.png"
+    com_img_path = "img/comparison_image.png"
     org_img, com_img = Read_img(org_img_path, com_img_path)
 
     org_show_img = cv2.imread('img/test3.png')
