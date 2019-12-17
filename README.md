@@ -17,11 +17,13 @@ Harris法[Harris 1988]と，Canny法[Canny 1986]のそれぞれの特徴点検�
 
 ## インストール
 以下のコマンドを作業ディレクトリ内で実行し,本リポジトリをダウンロードしてください．  
-python3と依存パッケージのインストールについては省略します．
+python3と使用パッケージのインストールについては省略します．
 ```
 git clone https://github.com/takahara3/image_comparison.git
 ```
 
-## 使用方法
-1. imgディレクトリ内に差分検出を行いたい2つの画像を入れる．
+## 実行方法(Canny法の場合)
+1. imgディレクトリ内に差分検出を行いたい2つの画像を入れます．．
   - 比較元の画像名：```origin_image.png```
+  - 比較対象の画像名：```comparison_image.png```
+2. 
