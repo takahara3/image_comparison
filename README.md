@@ -34,7 +34,7 @@ python3と使用パッケージのインストールについては省略しま�
     `$ python3 canny.py -s True`　　
 
 img内にサンプル画像が入っているので，サンプルでの実行結果を以下に示します．  
-### サンプルでの実行結果
+### サンプルでの実行結果  
 ####比較元画像　　
 ![origin_image](https://user-images.githubusercontent.com/49555813/70996972-527b5400-2117-11ea-8045-c8f247f46e3b.png)  
 ####比較対象画像  
