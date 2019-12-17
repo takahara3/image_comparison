@@ -1,11 +1,13 @@
 import numpy as np
 import cv2
 import sys
+import time
 from matplotlib import pyplot as plt
 
 from functions import *
 
 if __name__ == "__main__":
+    start_time = time.time()
     args = get_option()
 
     ###比較画像の読み込み
@@ -29,7 +31,9 @@ if __name__ == "__main__":
 
     ###特徴点の画素のRGB値
     color = [255,255,255]
+
     ###差分判定に使う特徴点の差
+    ###特徴点の差が300個以上の矩形を差分とする
     diff = 300
 
     ###矩形ごとの特徴点を比較，差分の大きい矩形の座標＆各矩形の特徴点の数を取得
@@ -53,4 +57,10 @@ if __name__ == "__main__":
 
     ###検出結果の保存
     if args.save == True:
-        write_img(result_img)
+        if args.name != None:
+            write_img(result_img, img_name = args.name)
+        else:
+            write_img(result_img)
+
+    end_time = time.time() - start_time
+    print('elapsed time = {}'.format(end_time))

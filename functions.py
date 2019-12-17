@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 from matplotlib import pyplot as plt
 from argparse import ArgumentParser
 
@@ -10,8 +11,10 @@ def get_option():
     argparser = ArgumentParser()
     argparser.add_argument('-s', '--save', type = bool, default = False,
                             help = 'save result image')
-    argparser.add_argument('-fig', '--figure', type = bool, default = False,
+    argparser.add_argument('-f', '--figure', type = bool, default = False,
                             help = 'show figure')
+    argparser.add_argument('-n', '--name', type = str, default = None,
+                            help = 'The name of the image to save')
 
     return argparser.parse_args()
 
@@ -27,8 +30,9 @@ def read_img(org_img_path, com_img_path):
 #画像保存
 def write_img(img, img_name=None):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    if os.path.exists('./out') == False:os.mkdir('./out')
     if img_name != None:
-        cv2.imwrite('out/{}.png'.format(img_name), img)
+        cv2.imwrite('./out/{}.png'.format(img_name), img)
     else:
         cv2.imwrite('out/result.png',img)
 
