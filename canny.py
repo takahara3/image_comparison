@@ -36,15 +36,16 @@ if __name__ == "__main__":
     shape, org_point_num, com_point_num = Comparison(org_edge_img, com_edge_img, color, diff)
 
     ###全ての矩形の共通部分の矩形を求める
-    x = seek_intersect(shape)
+    common_rect = seek_intersect(shape)
 
+    ###比較画像をそれぞれコピー
     img_1 = com_img.copy()
     img_2 = com_img.copy()
 
     ###矩形を描画
-    cover_img = draw_common_rect(img_1, x)
+    result_img = draw_common_rect(img_1, common_rect)
 
-    image_show(cover_img)
+    image_show(result_img)
 
     ###グラフの作成
     if args.figure == True:
@@ -52,4 +53,4 @@ if __name__ == "__main__":
 
     ###検出結果の保存
     if args.save == True:
-        write_img(cover_img)
+        write_img(result_img)
