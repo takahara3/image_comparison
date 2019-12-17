@@ -13,6 +13,7 @@ Harris法[Harris 1988]と，Canny法[Canny 1986]のそれぞれの特徴点検�
   - NumPy
   - OpenCV
   - Matplotlib
+画像の形式はPNG形式です．
 
 ## インストール
 以下のコマンドを作業ディレクトリ内で実行し,本リポジトリをダウンロードしてください．  
@@ -20,3 +21,7 @@ python3と依存パッケージのインストールについては省略しま�
 ```
 git clone https://github.com/takahara3/image_comparison.git
 ```
+
+## 使用方法
+1. imgディレクトリ内に差分検出を行いたい2つの画像を入れる．
+  - 比較元の画像名：```origin_image.png```
