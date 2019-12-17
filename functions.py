@@ -24,6 +24,7 @@ def read_img(org_img_path, com_img_path):
     com_img= cv2.cvtColor(com_img, cv2.COLOR_RGB2BGR)
     return org_img, com_img
 
+#画像保存
 def write_img(img, img_name=None):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     if img_name != None:
