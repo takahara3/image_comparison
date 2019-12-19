@@ -14,6 +14,8 @@ if __name__ == "__main__":
     org_img_path = "img/origin_image.png"
     com_img_path = "img/comparison_image.png"
     org_img, com_img = read_img(org_img_path, com_img_path)
+    print(org_img.shape)
+    print(com_img.shape)
 
     ###比較するために比較元画像を射影変換
     org_img = image_conversion(org_img, com_img)
