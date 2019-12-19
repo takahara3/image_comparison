@@ -20,16 +20,20 @@ if __name__ == "__main__":
     ###比較するために比較元画像を射影変換
     org_img = image_conversion(org_img, com_img)
 
+    #two_images_show(org_img, com_img)
+
     ###特徴点検出のためにGRAYスケール化
     gray_org_img = cv2.cvtColor(org_img, cv2.COLOR_BGR2GRAY)
     gray_com_img = cv2.cvtColor(com_img, cv2.COLOR_BGR2GRAY)
-    #two_images_show(gray_org_img, gray_com_img)
 
     ###Canny法によるエッジ検出
     min_val = 100
     max_val = 200
     org_edge_img = cv2.Canny(gray_org_img, min_val, max_val)
     com_edge_img = cv2.Canny(gray_com_img, min_val, max_val)
+    org_edge_img = cv2.cvtColor(org_edge_img, cv2.COLOR_GRAY2RGB)
+    com_edge_img = cv2.cvtColor(com_edge_img, cv2.COLOR_GRAY2RGB)
+    two_images_show(org_edge_img, com_edge_img, save=True)
 
     ###特徴点の画素のRGB値
     color = [255,255,255]
@@ -50,6 +54,7 @@ if __name__ == "__main__":
 
     ###矩形を描画
     result_img = draw_common_rect(img_1, common_rect)
+    #result_img = draw_rect(img_1, shape)
 
     image_show(result_img)
 
