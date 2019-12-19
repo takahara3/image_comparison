@@ -38,10 +38,11 @@ def write_img(img, img_name=None):
 
 
 #画像を単体表示
-def image_show(img, img_name = False):
+def image_show(img, img_name = None, save = False):
     plt.figure(figsize = (8,4))
-    if img_name != False:plt.title(img_name)
+    if img_name != None:plt.title(img_name)
     plt.imshow(img)
+    if save == True:write_img(img,img_name)
     plt.show()
 
 #画像を比較表示
