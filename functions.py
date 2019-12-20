@@ -73,16 +73,6 @@ def draw_common_rect(img,shape):
     draw_img = cv2.rectangle(img,(shape[1], shape[0]), (shape[3], shape[2]), (255,0,0))
     return draw_img
 
-#矩形を描画した画像の生成
-def img_conversion(img,shape):
-    if not shape:
-        print('Failure')
-    else:
-        after_img = draw_rect(img, shape)
-        plt.figure(figsize = (8,4))
-        plt.title('Comparison result')
-        plt.imshow(after_img)
-        plt.show()
 
 #特徴点のグラフ作成
 def draw_graph(org_point_num, com_point_num):
