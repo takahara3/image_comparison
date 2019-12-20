@@ -52,9 +52,10 @@ if __name__ == "__main__":
     ###矩形を描画
     result_img = draw_common_rect(img_1, common_rect)
     #result_img = draw_rect(img_1, shape)
-    
+
     end_time = time.time() - start_time
     print('elapsed time = {}'.format(end_time))
+    
 
     image_show(result_img)
 
