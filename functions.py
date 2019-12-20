@@ -194,6 +194,7 @@ def keypoint_coords(kp, top, left, bottom, right, margin=0):
     v = kp.pt[1]
     return (top + margin < v) and (left + margin < u) and (v < bottom - margin) and (u < right - margin)
 
+
 #比較元画像の射影変換処理
 def image_conversion(org_img,com_img):
     org_h, org_w, org_ch = org_img.shape
