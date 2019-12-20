@@ -31,9 +31,6 @@ if __name__ == "__main__":
     max_val = 200
     org_edge_img = cv2.Canny(gray_org_img, min_val, max_val)
     com_edge_img = cv2.Canny(gray_com_img, min_val, max_val)
-    org_edge_img = cv2.cvtColor(org_edge_img, cv2.COLOR_GRAY2RGB)
-    com_edge_img = cv2.cvtColor(com_edge_img, cv2.COLOR_GRAY2RGB)
-    two_images_show(org_edge_img, com_edge_img, save=True)
 
     ###特徴点の画素のRGB値
     color = [255,255,255]
@@ -55,6 +52,9 @@ if __name__ == "__main__":
     ###矩形を描画
     result_img = draw_common_rect(img_1, common_rect)
     #result_img = draw_rect(img_1, shape)
+    
+    end_time = time.time() - start_time
+    print('elapsed time = {}'.format(end_time))
 
     image_show(result_img)
 
@@ -68,6 +68,3 @@ if __name__ == "__main__":
             write_img(result_img, img_name = args.name)
         else:
             write_img(result_img)
-
-    end_time = time.time() - start_time
-    print('elapsed time = {}'.format(end_time))
