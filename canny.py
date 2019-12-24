@@ -12,8 +12,8 @@ if __name__ == "__main__":
     args = get_option()
 
     ###比較画像の読み込み
-    org_img_path = "img/origin_image.png"
-    com_img_path = "img/comparison_image.png"
+    org_img_path = "img/origin_image2.png"
+    com_img_path = "img/comparison_image2.png"
     org_img, com_img = read_img(org_img_path, com_img_path)
 
     ###比較するために比較元画像を射影変換
