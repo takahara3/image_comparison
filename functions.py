@@ -3,6 +3,7 @@ import cv2
 import os
 from matplotlib import pyplot as plt
 from argparse import ArgumentParser
+from tqdm import tqdm
 
 from classes import *
 
@@ -150,7 +151,7 @@ def Comparison(org_img, com_img, color, diff):
     shape = []
     n = 1
 
-    for i in range(param.sep_num * param.slice_num):
+    for i in tqdm(range(param.sep_num * param.slice_num)):
         for j in range(param.sep_num * param.slice_num):
             cutted_org_img = org_img[param.start_h:param.start_h + param.c_h, param.start_w:param.start_w + param.c_w]
             cutted_com_img = com_img[param.start_h:param.start_h + param.c_h, param.start_w:param.start_w + param.c_w]
