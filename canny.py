@@ -3,6 +3,7 @@ import cv2
 import sys
 import time
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 from functions import *
 
@@ -14,13 +15,9 @@ if __name__ == "__main__":
     org_img_path = "img/origin_image.png"
     com_img_path = "img/comparison_image.png"
     org_img, com_img = read_img(org_img_path, com_img_path)
-    print(org_img.shape)
-    print(com_img.shape)
 
     ###比較するために比較元画像を射影変換
     org_img = image_conversion(org_img, com_img)
-
-    #two_images_show(org_img, com_img)
 
     ###特徴点検出のためにGRAYスケール化
     gray_org_img = cv2.cvtColor(org_img, cv2.COLOR_BGR2GRAY)
@@ -50,12 +47,12 @@ if __name__ == "__main__":
     img_2 = com_img.copy()
 
     ###矩形を描画
-    result_img = draw_common_rect(img_1, common_rect)
-    #result_img = draw_rect(img_1, shape)
+    #result_img = draw_common_rect(img_1, common_rect)
+    result_img = draw_rect(img_1, shape)
 
     end_time = time.time() - start_time
     print('elapsed time = {}'.format(end_time))
-    
+
 
     image_show(result_img)
 
