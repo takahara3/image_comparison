@@ -12,8 +12,8 @@ if __name__ == "__main__":
     args = get_option()
 
     ###比較画像の読み込み
-    org_img_path = "img/origin_image2.png"
-    com_img_path = "img/comparison_image2.png"
+    org_img_path = args.image_1
+    com_img_path = args.image_2
     org_img, com_img = read_img(org_img_path, com_img_path)
 
     ###比較するために比較元画像を射影変換
@@ -38,23 +38,24 @@ if __name__ == "__main__":
 
     ###矩形ごとの特徴点を比較，差分の大きい矩形の座標＆各矩形の特徴点の数を取得
     shape, org_point_num, com_point_num = Comparison(org_edge_img, com_edge_img, color, diff)
-
     ###全ての矩形の共通部分の矩形を求める
-    common_rect = seek_intersect(shape)
+    #common_rect = seek_intersect(shape)
 
     ###比較画像をそれぞれコピー
     img_1 = com_img.copy()
     img_2 = com_img.copy()
 
-    ###矩形を描画
-    #result_img = draw_common_rect(img_1, common_rect)
-    result_img = draw_rect(img_1, shape)
-
+    #処理時間を表示
     end_time = time.time() - start_time
     print('elapsed time = {}'.format(end_time))
 
-
-    image_show(result_img)
+    ###矩形を描画
+    if not shape:
+        print('Not found')
+    else:
+        #result_img = draw_common_rect(img_1, common_rect)
+        result_img = draw_rect(img_1, shape)
+        image_show(result_img)
 
     ###グラフの作成
     if args.figure == True:
