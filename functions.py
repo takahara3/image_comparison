@@ -10,11 +10,20 @@ from classes import *
 #コマンドライン引数
 def get_option():
     argparser = ArgumentParser()
+    #画像保存
     argparser.add_argument('-s', '--save', type = bool, default = False,
                             help = 'save result image')
+    #グラフ表示
     argparser.add_argument('-f', '--figure', type = bool, default = False,
                             help = 'show figure')
+    #保存名
     argparser.add_argument('-n', '--name', type = str, default = None,
+                            help = 'The name of the image to save')
+
+    argparser.add_argument('-img_1', '--image_1', type = str, default = 'img/origin_image.png',
+                            help = 'The name of the image to save')
+
+    argparser.add_argument('-img_2', '--image_2', type = str, default = 'img/comparison_image.png',
                             help = 'The name of the image to save')
 
     return argparser.parse_args()
@@ -31,7 +40,9 @@ def read_img(org_img_path, com_img_path):
 #画像保存
 def write_img(img, img_name=None):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    #ディレクトリの有無確認
     if os.path.exists('./out') == False:os.mkdir('./out')
+
     if img_name != None:
         cv2.imwrite('./out/{}.png'.format(img_name), img)
     else:
@@ -69,7 +80,7 @@ def draw_rect(img,shape):
 
     return draw_img
 
-#矩形の共通部分描画
+#矩形の共通部分を描画
 def draw_common_rect(img,shape):
     draw_img = cv2.rectangle(img,(shape[1], shape[0]), (shape[3], shape[2]), (255,0,0))
     return draw_img
@@ -79,7 +90,7 @@ def draw_common_rect(img,shape):
 def draw_graph(org_point_num, com_point_num):
     diff = []
 
-    plt.figure(figsize=(10,4))
+    fig = plt.figure(figsize=(18,8))
     plt.subplot(131)
     plt.title('Original image point')
     x = [i for i in range(len(org_point_num))]
@@ -90,14 +101,21 @@ def draw_graph(org_point_num, com_point_num):
     x = [i for i in range(len(com_point_num))]
     plt.bar(x, com_point_num)
 
-    for i in range(len(org_point_num)):
+    for i in tqdm(range(len(org_point_num))):
         diff.append(abs(org_point_num[i] - com_point_num[i]))
+
+    ave = np.average(diff)
+    std = np.std(diff)
+
+    print("average = {}".format(ave))
+    print("standard deviation = {}".format(std))
 
     plt.subplot(133)
     plt.title('diff')
     x = [i for i in range(len(diff))]
     plt.bar(x,diff)
 
+    plt.savefig('./out/diff_figure.png')
     plt.show()
 
 #矩形の共通判定
