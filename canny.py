@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     org_sample_path = 'img/org_grid.png'
     com_sample_path = 'img/com_grid.png'
-    org_sample, com_sample =  read_img(org_sample_path, com_sample_path)
+    #org_sample, com_sample =  read_img(org_sample_path, com_sample_path)
     #two_images_show(org_sample, com_sample)
 
     ###特徴点検出のためにGRAYスケール化
@@ -40,8 +40,8 @@ if __name__ == "__main__":
     com_edge_img_show = cv2.cvtColor(com_edge_img, cv2.COLOR_RGB2BGR)
     #two_images_show(org_edge_img_show, com_edge_img_show)
 
-    result_img_show = cv2.imread('./out/Canny_result.png')
-    result_img_show = cv2.cvtColor(result_img_show, cv2.COLOR_RGB2BGR)
+    #result_img_show = cv2.imread('./out/Canny_result.png')
+    #result_img_show = cv2.cvtColor(result_img_show, cv2.COLOR_RGB2BGR)
     #two_images_show(org_img_before, result_img_show)
 
     ###特徴点の画素のRGB値
@@ -58,12 +58,11 @@ if __name__ == "__main__":
 
     ###比較画像をそれぞれコピー
     img_1 = com_img.copy()
-    img_2 = com_img.copy()
+    #img_2 = org_img.copy()
 
     #処理時間を表示
     end_time = time.time() - start_time
     print('elapsed time = {}'.format(end_time))
-    two_images_show(img_1, img_2)
 
     ###矩形を描画
     if not shape:
@@ -72,6 +71,7 @@ if __name__ == "__main__":
         #result_img = draw_common_rect(img_1, common_rect)
         result_img = draw_rect(img_1, shape)
         #image_show(result_img)
+        two_images_show(org_img_before, result_img)
         ###検出結果の保存
         if args.save == True:
             if args.name != None:

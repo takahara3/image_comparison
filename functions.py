@@ -20,10 +20,10 @@ def get_option():
     argparser.add_argument('-n', '--name', type = str, default = None,
                             help = 'The name of the image to save')
 
-    argparser.add_argument('-img_1', '--image_1', type = str, default = 'img/origin_image.png',
+    argparser.add_argument('-img_1', '--image_1', type = str, default = 'origin_image.png',
                             help = 'The name of the image to save')
 
-    argparser.add_argument('-img_2', '--image_2', type = str, default = 'img/comparison_image.png',
+    argparser.add_argument('-img_2', '--image_2', type = str, default = 'comparison_image.png',
                             help = 'The name of the image to save')
 
     return argparser.parse_args()
@@ -51,7 +51,7 @@ def write_img(img, img_name=None):
 
 #画像を単体表示
 def image_show(img, img_name = None, save = False):
-    plt.figure(figsize = (8,4))
+    plt.figure(figsize = (16,8))
     if img_name != None:plt.title(img_name)
     plt.imshow(img)
     if save == True:write_img(img,img_name)
@@ -59,7 +59,7 @@ def image_show(img, img_name = None, save = False):
 
 #画像を比較表示
 def two_images_show(img_1, img_2, img_1_name = False, img_2_name = False, save = False):
-    fig = plt.figure(figsize = (8,4))
+    fig = plt.figure(figsize = (16,8))
     plt.subplot(121)
     if img_1_name != False:plt.title(img_1_name)
     plt.imshow(img_1)
